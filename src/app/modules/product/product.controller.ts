@@ -63,9 +63,55 @@ const updateProduct = async (req: Request, res: Response) => {
     console.log(err);
   }
 };
+
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await ProductServices.deleteProductFromDb(productId);
+    if (!result) {
+      res.status(404).json({
+        success: false,
+        message: "Product Not Found",
+        data: result,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Product Deleted Successfully",
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const searchProducts = async (req: Request, res: Response) => {
+  try {
+    const searchText = req.query.searchTerm as string;
+    const result = await ProductServices.searchProductsFromDb(searchText);
+
+    if (!result) {
+      res.status(404).json({
+        success: false,
+        message: "any product didn't found",
+        data: result,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `products matching searchterm '${searchText}' fetched successfully`,
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const productControllers = {
   createNewProduct,
   getAllProducts,
   getSingleProduct,
   updateProduct,
+  deleteProduct,
+  searchProducts,
 };
