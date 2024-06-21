@@ -1,19 +1,25 @@
 import { Request, Response } from "express";
 import orderValidationSchema from "./order.validation";
 import { OrderServices } from "./order.services";
-import { boolean } from "zod";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const zodParsedData = orderValidationSchema.parse(req.body);
+    await OrderServices.checkAndUpdateInventory(
+      zodParsedData.productId,
+      zodParsedData.quantity
+    );
     const result = await OrderServices.createOrderIntoDb(zodParsedData);
     res.status(200).json({
       success: true,
       message: "Orders Created Successfully",
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(200).json({
+      success: false,
+      message: err,
+    });
   }
 };
 
