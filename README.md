@@ -255,3 +255,54 @@ npm run start:dev
     ]
 }
 ```
+## Orders Api
+#### 1.Create a New Order
+* Api-endpoint:http://localhost:5000/api/orders
+* Method:POST
+* Request Body
+```
+{
+    "email": "level2@programming-hero.com",
+    "productId": "5fd67e890b60c903cd8544a3",
+    "price": 999,
+    "quantity": 1
+}
+```
+#### 2.Retrieve all orders
+* Api-endpoint:http://localhost:5000/api/orders
+* Method:GET
+* Sample Response
+```
+{
+    "success": true,
+    "message": "Orders fetched successfully!",
+    "data": [
+        {
+            "email": "level2@programming-hero.com",
+            "productId": "5fd67e890b60c903cd8544a3",
+            "price": 999,
+            "quantity": 1
+        }
+        // more orders...
+    ]
+}
+```
+#### 3.Retrieve orders by user email
+* Api-endpoint:http://localhost:5000/api/orders?email=level2@programming-hero.com
+* Method:GET
+* Sample Response
+```
+{
+    "success": true,
+    "message": "Orders fetched successfully for user email!",
+    "data": [
+        {
+            "email": "level2@programming-hero.com",
+            "productId": "5fd67e890b60c903cd8544a3",
+            "price": 999,
+            "quantity": 1
+        }
+        // more orders for the user...
+    ]
+}
+```
