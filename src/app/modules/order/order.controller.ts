@@ -15,18 +15,18 @@ const createOrder = async (req: Request, res: Response) => {
       message: "Orders Created Successfully",
       data: result,
     });
-  } catch (err) {
-    res.status(200).json({
+  } catch (err: any) {
+    res.status(500).json({
       success: false,
-      message: err,
+      message: err.message || "something went wrong",
     });
   }
 };
 
 const getAllOrders = async (req: Request, res: Response) => {
   try {
-    const { email } = req.query;
-    console.log(email);
+    const email = req.query.email as string | undefined;
+    // console.log(email);
     let is_true: boolean = false;
     let orders;
     if (email) {
@@ -46,7 +46,10 @@ const getAllOrders = async (req: Request, res: Response) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: "Order Not Found",
+    });
   }
 };
 

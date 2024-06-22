@@ -24,12 +24,19 @@ const checkAndUpdateInventory = async (productId: string, quantity: number) => {
   await productData.save();
 };
 
-const getAllOrdersFromDb = async (email: string, is_true: boolean) => {
+const getAllOrdersFromDb = async (
+  email: string | undefined,
+  is_true: boolean
+) => {
   let result;
   if (is_true) {
     result = await OrderModel.find({ email });
   } else {
     result = await OrderModel.find();
+  }
+  // console.log(result);
+  if (result.length == 0) {
+    throw new Error("Order Not Fount");
   }
   return result;
 };
